@@ -1,20 +1,22 @@
 package com.ms.example.loans.mapper;
 
 import com.ms.example.loans.Entity.Loans;
+import com.ms.example.loans.Utils;
 import com.ms.example.loans.dto.LoansDto;
 import org.junit.Assert;
 import org.junit.Before;
 
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-
+@SpringBootTest
 public class LoansMapperTest {
+
+    @Autowired
     private LoansMapper loansMapper;
 
-    @Before
-    public void setUp() {
-        loansMapper = new LoansMapper();
-    }
+
 
 
     @Test
@@ -25,7 +27,7 @@ public class LoansMapperTest {
         int totalLoan = 100000;
         int amountPaid = 1000;
         int outstandingAmount = 99000;
-        LoansDto loansDto = buildLoansDto(mobileNumber,loanNumber, loanType, totalLoan, amountPaid, outstandingAmount);
+        LoansDto loansDto = Utils.buildLoansDto(mobileNumber,loanNumber, loanType, totalLoan, amountPaid, outstandingAmount);
         Loans result = loansMapper.mapToLoans(loansDto, new Loans());
         Assert.assertEquals(loansDto.getMobileNumber(), result.getMobileNumber());
         Assert.assertEquals(loansDto.getLoanNumber(), result.getLoanNumber());
@@ -44,7 +46,7 @@ public class LoansMapperTest {
         int totalLoan = 100000;
         int amountPaid = 1000;
         int outstandingAmount = 99000;
-        Loans loans = buildLoans(mobileNumber,loanNumber, loanType, totalLoan, amountPaid, outstandingAmount);
+        Loans loans = Utils.buildLoans(mobileNumber,loanNumber, loanType, totalLoan, amountPaid, outstandingAmount);
         LoansDto result = loansMapper.mapToLoansDto(loans, new LoansDto());
         Assert.assertEquals(loans.getMobileNumber(), result.getMobileNumber());
         Assert.assertEquals(loans.getLoanNumber(), result.getLoanNumber());
@@ -55,26 +57,4 @@ public class LoansMapperTest {
     }
 
 
-
-    private static LoansDto buildLoansDto(String mobileNumber, String loanNumber, String loanType, int totalLoan, int amountPaid,int outstandingAmount ){
-        LoansDto loansDto = new LoansDto();
-        loansDto.setLoanNumber(loanNumber);
-        loansDto.setLoanType(loanType);
-        loansDto.setMobileNumber(mobileNumber);
-        loansDto.setTotalLoan(totalLoan);
-        loansDto.setAmountPaid(amountPaid);
-        loansDto.setOutstandingAmount(outstandingAmount);
-        return loansDto;
-    }
-
-    private static Loans buildLoans(String mobileNumber, String loanNumber, String loanType, int totalLoan, int amountPaid,int outstandingAmount ){
-        Loans loans = new Loans();
-        loans.setLoanNumber(loanNumber);
-        loans.setLoanType(loanType);
-        loans.setMobileNumber(mobileNumber);
-        loans.setTotalLoan(totalLoan);
-        loans.setAmountPaid(amountPaid);
-        loans.setOutstandingAmount(outstandingAmount);
-        return loans;
-    }
 }
